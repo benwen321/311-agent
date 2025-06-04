@@ -11,19 +11,124 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserRole {
+  ADMIN
+  MUNICIPAL_MANAGER
+  DEPARTMENT_WORKER
+}
+
+enum IssueStatus {
+  REPORTED
+  IN_PROGRESS
+  RESOLVED
+}
+
+enum IssuePriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
 model User {
   id            String          @id @default(cuid())
   name          String?
   email         String?         @unique
   emailVerified DateTime?
   image         String?
+  role          UserRole        @default(DEPARTMENT_WORKER)
+  department    String?         // e.g., "Public Works", "Parks & Recreation"
   accounts      Account[]
   sessions      Session[]
- 
+  
+  // Issue management relationships
+  reportedIssues    Issue[] @relation("ReportedBy")
+  assignedIssues    Issue[] @relation("AssignedTo")
+  issueUpdates      IssueUpdate[]
+  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
- 
+
+model IssueCategory {
+  id          String @id @default(cuid())
+  name        String @unique // e.g., "Potholes", "Graffiti"
+  color       String // Hex color for map markers
+  icon        String? // Optional icon identifier
+  description String?
+  
+  issues Issue[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Issue {
+  id          String        @id @default(cuid())
+  title       String
+  description String?
+  status      IssueStatus   @default(REPORTED)
+  priority    IssuePriority @default(MEDIUM)
+  
+  // Location data
+  latitude    Float
+  longitude   Float
+  address     String?       // Human-readable address
+  
+  // Relationships
+  categoryId  String
+  category    IssueCategory @relation(fields: [categoryId], references: [id])
+  
+  reportedById String
+  reportedBy   User    @relation("ReportedBy", fields: [reportedById], references: [id])
+  
+  assignedToId String?
+  assignedTo   User?   @relation("AssignedTo", fields: [assignedToId], references: [id])
+  
+  // Tracking
+  reportedAt  DateTime @default(now())
+  assignedAt  DateTime?
+  resolvedAt  DateTime?
+  
+  // Additional data
+  photos      IssuePhoto[]
+  updates     IssueUpdate[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([status])
+  @@index([priority])
+  @@index([categoryId])
+  @@index([assignedToId])
+}
+
+model IssuePhoto {
+  id      String @id @default(cuid())
+  url     String
+  caption String?
+  
+  issueId String
+  issue   Issue  @relation(fields: [issueId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+}
+
+model IssueUpdate {
+  id          String @id @default(cuid())
+  message     String
+  oldStatus   IssueStatus?
+  newStatus   IssueStatus?
+  
+  issueId String
+  issue   Issue  @relation(fields: [issueId], references: [id], onDelete: Cascade)
+  
+  updatedById String
+  updatedBy   User   @relation(fields: [updatedById], references: [id])
+  
+  createdAt DateTime @default(now())
+}
+
 model Account {
   id                String  @id @default(cuid())
   userId            String

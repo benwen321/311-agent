@@ -1,4 +1,4 @@
-/* @tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -18,4 +18,31 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
-} */
+}
+
+/* Prevent SVG icons from being oversized */
+svg {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Ensure consistent icon sizing with correct selectors */
+svg.w-3, svg.h-3 {
+  width: 0.75rem !important;
+  height: 0.75rem !important;
+}
+
+svg.w-4, svg.h-4 {
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
+svg.w-5, svg.h-5 {
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+}
+
+svg.w-8, svg.h-8 {
+  width: 2rem !important;
+  height: 2rem !important;
+}
