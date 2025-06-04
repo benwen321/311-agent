@@ -161,7 +161,7 @@ export default function Dashboard() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 flex items-center justify-center">
         <div className="text-xl">Loading dashboard...</div>
       </div>
     )
@@ -169,7 +169,7 @@ export default function Dashboard() {
 
   if (!currentUser) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Authentication Required</h2>
           <p className="text-gray-600 mb-4">Please sign in to access the municipal dashboard.</p>
@@ -185,36 +185,44 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200">
+      <header className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border-b border-slate-700/50 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
-            <div className="flex items-center space-x-6">
+            <div className="flex items-center space-x-8">
               {/* Logo/Icon */}
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-sm">
-                  <span className="text-white text-lg font-bold">🏛️</span>
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg ring-2 ring-blue-400/20">
+                  <span className="text-white text-xl font-bold">🏛️</span>
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Municipal Dashboard</h1>
-                  <p className="text-sm text-gray-500 mt-0.5">Issue Management System</p>
+                  <h1 className="text-2xl font-bold text-white tracking-tight bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
+                    Municipal Dashboard
+                  </h1>
+                  <p className="text-sm text-slate-300 mt-0.5 font-medium">Issue Management System</p>
                 </div>
               </div>
               
-              {/* Quick Stats - Inline */}
-              <div className="hidden lg:flex items-center space-x-6 ml-8 pl-8 border-l border-gray-200">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-gray-900">{filteredIssues.length}</div>
-                  <div className="text-xs text-gray-500 uppercase tracking-wide">Total Issues</div>
+              {/* Quick Stats - Enhanced */}
+              <div className="hidden lg:flex items-center space-x-6 ml-8 pl-8 border-l border-slate-600/50">
+                <div className="text-center group">
+                  <div className="text-2xl font-bold text-white group-hover:text-blue-300 transition-colors duration-200">
+                    {filteredIssues.length}
+                  </div>
+                  <div className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Total Issues</div>
                 </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-red-600">{issues.filter(issue => issue.priority === 'URGENT').length}</div>
-                  <div className="text-xs text-gray-500 uppercase tracking-wide">Urgent</div>
+                <div className="text-center group">
+                  <div className="text-2xl font-bold text-red-400 group-hover:text-red-300 transition-colors duration-200">
+                    {issues.filter(issue => issue.priority === 'URGENT').length}
+                  </div>
+                  <div className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Urgent</div>
                 </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-yellow-600">{issues.filter(issue => issue.status === 'IN_PROGRESS').length}</div>
-                  <div className="text-xs text-gray-500 uppercase tracking-wide">In Progress</div>
+                <div className="text-center group">
+                  <div className="text-2xl font-bold text-amber-400 group-hover:text-amber-300 transition-colors duration-200">
+                    {issues.filter(issue => issue.status === 'IN_PROGRESS').length}
+                  </div>
+                  <div className="text-xs text-slate-400 uppercase tracking-wider font-semibold">In Progress</div>
                 </div>
               </div>
             </div>
@@ -224,36 +232,36 @@ export default function Dashboard() {
               {/* Add Issue Button */}
               <a 
                 href={`/dashboard/add-issue?demo=${encodeURIComponent(currentUser.email)}`}
-                className="inline-flex items-center px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg shadow-sm transition-all duration-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-sm font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900"
               >
-                <svg width="16" height="16" className="mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <svg width="18" height="18" className="mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                 </svg>
                 New Issue
               </a>
 
               {/* User Profile */}
-              <div className="flex items-center space-x-3 px-4 py-2 bg-gray-50 rounded-lg border border-gray-200">
+              <div className="flex items-center space-x-3 px-5 py-3 bg-slate-800/50 rounded-xl border border-slate-700/50 backdrop-blur-sm hover:bg-slate-700/50 transition-all duration-200">
                 {/* Avatar */}
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium ${
-                  currentUser.role === 'MUNICIPAL_MANAGER' ? 'bg-purple-500' :
-                  currentUser.role === 'ADMIN' ? 'bg-red-500' :
-                  'bg-green-500'
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-white text-sm font-bold shadow-lg ring-2 ring-white/10 ${
+                  currentUser.role === 'MUNICIPAL_MANAGER' ? 'bg-gradient-to-br from-purple-500 to-purple-600' :
+                  currentUser.role === 'ADMIN' ? 'bg-gradient-to-br from-red-500 to-red-600' :
+                  'bg-gradient-to-br from-emerald-500 to-emerald-600'
                 }`}>
                   {currentUser.name.charAt(0).toUpperCase()}
                 </div>
                 
                 {/* User Info */}
                 <div className="text-left">
-                  <div className="text-sm font-medium text-gray-900">{currentUser.name}</div>
-                  <div className="text-xs text-gray-500">{currentUser.department}</div>
+                  <div className="text-sm font-semibold text-white">{currentUser.name}</div>
+                  <div className="text-xs text-slate-300 font-medium">{currentUser.department}</div>
                 </div>
 
                 {/* Role Badge */}
-                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                  currentUser.role === 'MUNICIPAL_MANAGER' ? 'bg-purple-100 text-purple-800' :
-                  currentUser.role === 'ADMIN' ? 'bg-red-100 text-red-800' :
-                  'bg-green-100 text-green-800'
+                <span className={`inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold shadow-sm ${
+                  currentUser.role === 'MUNICIPAL_MANAGER' ? 'bg-purple-500/20 text-purple-300 ring-1 ring-purple-400/30' :
+                  currentUser.role === 'ADMIN' ? 'bg-red-500/20 text-red-300 ring-1 ring-red-400/30' :
+                  'bg-emerald-500/20 text-emerald-300 ring-1 ring-emerald-400/30'
                 }`}>
                   {currentUser.role === 'MUNICIPAL_MANAGER' ? 'Manager' :
                    currentUser.role === 'ADMIN' ? 'Admin' : 'Worker'}
@@ -261,22 +269,22 @@ export default function Dashboard() {
 
                 {/* Dropdown Arrow */}
                 <div className="relative">
-                  <button className="text-gray-400 hover:text-gray-600">
+                  <button className="text-slate-400 hover:text-slate-200 p-1 rounded-lg hover:bg-slate-600/50 transition-all duration-200">
                     <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </button>
                   
                   {/* Hidden dropdown for now - can implement later */}
-                  <div className="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 z-50">
-                    <div className="py-1">
-                      <a href="/auth/signin" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                  <div className="hidden absolute right-0 mt-2 w-48 bg-slate-800 rounded-xl shadow-xl border border-slate-700/50 z-50 backdrop-blur-sm">
+                    <div className="py-2">
+                      <a href="/auth/signin" className="block px-4 py-3 text-sm text-slate-300 hover:bg-slate-700/50 hover:text-white transition-colors duration-150 first:rounded-t-xl">
                         Switch User
                       </a>
-                      <a href="/settings" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                      <a href="/settings" className="block px-4 py-3 text-sm text-slate-300 hover:bg-slate-700/50 hover:text-white transition-colors duration-150">
                         Settings
                       </a>
-                      <a href="/help" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                      <a href="/help" className="block px-4 py-3 text-sm text-slate-300 hover:bg-slate-700/50 hover:text-white transition-colors duration-150 last:rounded-b-xl">
                         Help
                       </a>
                     </div>
